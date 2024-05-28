@@ -9,7 +9,7 @@ class UpdateAdTocPlugin extends Plugin {
 
         // Add command to update ad-toc blocks
         this.addCommand({
-            id: 'generate-TOC',
+            id: 'generate-toc',
             name: 'Generate TOC(一键生成目录)',
             callback: () => this.updateAdTocBlocks()
         });
