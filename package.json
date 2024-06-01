@@ -1,0 +1,21 @@
+{
+  "name": "generate-toc",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/main.ts"
+  },
+  "keywords": [],
+  "author": "阿弟要精致",
+  "license": "GPL-3.0-only",
+  "description": "一键制作一个可链接的目录,根据当前文档中的heading(等级标题)自动生成，如果已经生成，再次点击会进行更新，不会自动更新，防止占用线程到时变卡，配合admonition,效果更佳！，如果没配合admonition，可以勾选去掉代码框。",
+  "devDependencies": {
+    "@types/node": "^20.13.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "obsidian": "^1.5.7-1"
+  }
+}
