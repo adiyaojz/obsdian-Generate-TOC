@@ -1,5 +1,5 @@
 
-import { Plugin, PluginSettingTab, Setting, App } from "obsidian";
+import { Plugin, PluginSettingTab, Setting, App ,moment} from "obsidian";
 
 interface Heading {
   level: number;
@@ -113,25 +113,24 @@ class UpdateAdTocPlugin extends Plugin {
   }
 
   updateAdTocBlocks() {
-    const activeLeaf = this.app.workspace.activeEditor;
-    //const activeLeaf = this.app.workspace.activeLeaf;
-    if (!activeLeaf || !activeLeaf.editor) {
-      console.error("No active editor found");
-      return;
+    const activeEditor = this.app.workspace.activeEditor;
+    if (!activeEditor || !(activeEditor.file?.extension == 'md')) {
+        console.error("No active editor found or the active view is not a markdown file");
+        return;
     }
-
-    //const editor = activeLeaf.view.editor;
-    const editor = activeLeaf.editor;
-    //let content = editor.getValue();
-    let content = editor.getValue();
-
+    const editor =activeEditor.editor;
+    let content = activeEditor.editor?.getValue();
+    if(!content||!editor){
+      return
+    }
     // Remove existing ad-toc block if it exists
     const adTocBlockPattern = new RegExp(
       `\`\`\`${this.settings.codeBlockTitle}\n[\\s\\S]*?\n\`\`\`\n`,
       "g"
     );
+    
+    
     content = content.replace(adTocBlockPattern, "");
-
     const noadTocBlockPattern = new RegExp(
       `${this.settings.headNoadTocTip}\n[\\s\\S]*?\n${this.settings.tailNoadTocTip}\n`,
       "g"
@@ -223,8 +222,12 @@ class AdTocSettingTab extends PluginSettingTab {
 
   display() {
     const { containerEl } = this;
-    const lang = "zh"; // Set language to Chinese for demonstration
-
+    let lang = moment.locale(); // Set language to Chinese for demonstration
+    if (lang == 'zh-cn'){
+      lang = 'zh';
+    }else{
+      lang = 'en';
+    }
     containerEl.empty();
 
     //containerEl.createEl("h2", { text: "一键生成目录插件设置" });
